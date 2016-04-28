@@ -76,13 +76,39 @@
                 clickToUse: false,
                 configure: {
                     enabled: true,
-                    filter: true,
-                    container: document.getElementById('config')
+                    filter: function (option, path) {
+                        if (path.length > 0) {
+                            switch (path[0]) {
+                                case 'layout':
+                                case 'global':
+                                    return false;
+                                    console.log('option: ', option, ', path: ', path);
+                                default:
+                                    return true;
+                            }
+                        } else {
+                            console.log('option: ', option);
+                            switch (option) {
+                                case 'layout':
+                                case 'global':
+                                    return false;
+                                default:
+                                    return true;
+                            }
+                        }
+                    },
+                    container: document.getElementById('config'),
+                    showButton: true
                 },
                 nodes: {},
                 edges: {},
                 groups: {},
-                layout: {},
+                layout: {
+                    improvedLayout: true,
+                    hierarchical: {
+                        enabled: false
+                    }
+                },
                 interaction: {},
                 manipulation: {},
                 physics: {}
