@@ -25,23 +25,23 @@
 
             //  Create an array with nodes
             var nodes = new vis.DataSet([
-                {id: 1, label: 'Skills'},
-                {id: 2, label: 'Skill Category'},
-                {id: 3, label: 'Skill Category'},
-                {id: 4, label: 'Skill Category'},
-                {id: 5, label: 'Skill Category'},
-                {id: 6, label: 'Skill'},
-                {id: 7, label: 'Skill'},
-                {id: 8, label: 'Skill'},
-                {id: 9, label: 'Skill'},
-                {id: 10, label: 'Skill'},
-                {id: 11, label: 'Skill'},
-                {id: 12, label: 'Skill'},
-                {id: 13, label: 'Skill'},
-                {id: 14, label: 'Skill'},
-                {id: 15, label: 'Skill'},
-                {id: 16, label: 'Skill'},
-                {id: 17, label: 'Skill'}
+                {id: 1, label: 'Skills', group: 'skillRoot'},
+                {id: 2, label: 'Skill Category', group: 'skillSet'},
+                {id: 3, label: 'Skill Category', group: 'skillSet'},
+                {id: 4, label: 'Skill Category', group: 'skillSet'},
+                {id: 5, label: 'Skill Category', group: 'skillSet'},
+                {id: 6, label: 'Skill', group: 'skill'},
+                {id: 7, label: 'Skill', group: 'skill'},
+                {id: 8, label: 'Skill', group: 'skill'},
+                {id: 9, label: 'Skill', group: 'skill'},
+                {id: 10, label: 'Skill', group: 'skill'},
+                {id: 11, label: 'Skill', group: 'skill'},
+                {id: 12, label: 'Skill', group: 'skill'},
+                {id: 13, label: 'Skill', group: 'skill'},
+                {id: 14, label: 'Skill', group: 'skill'},
+                {id: 15, label: 'Skill', group: 'skill'},
+                {id: 16, label: 'Skill', group: 'skill'},
+                {id: 17, label: 'Skill', group: 'skill'}
             ]);
 
             //  Create an array with edges
@@ -102,14 +102,26 @@
                 },
                 nodes: {},
                 edges: {},
-                groups: {},
+                groups: {
+                    skillRoot: {},
+                    skillSet: {},
+                    skill: {}
+                },
                 layout: {
                     improvedLayout: true,
                     hierarchical: {
                         enabled: false
                     }
                 },
-                interaction: {},
+                interaction: {
+                    dragNodes: true,
+                    dragView: false,
+                    hideEdgesOnDrag: false,
+                    hideNodesOnDrag: false,
+                    multiselect: false,
+                    navigationButtons: false,
+                    zoomView: false
+                },
                 manipulation: {},
                 physics: {}
             };
