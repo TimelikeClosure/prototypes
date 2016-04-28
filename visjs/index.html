@@ -17,26 +17,51 @@
         <!--<script src="script.js"></script>-->
     </head>
 
-    <body>
-        <div id="network" style="height: 100vh"></div>
+    <body style="display: flex; flex-direction: row; justify-content: stretch; width: 100%; margin: 0;">
+        <div id="network" style="height: 100vh; flex-grow: 1"></div>
+        <div id="config" style="height: 100vh; overflow: auto"></div>
 
         <script type="text/javascript">
 
             //  Create an array with nodes
             var nodes = new vis.DataSet([
-                {id: 1, label: 'Node 1'},
-                {id: 2, label: 'Node 2'},
-                {id: 3, label: 'Node 3'},
-                {id: 4, label: 'Node 4'},
-                {id: 5, label: 'Node 5'}
+                {id: 1, label: 'Skills'},
+                {id: 2, label: 'Skill Category'},
+                {id: 3, label: 'Skill Category'},
+                {id: 4, label: 'Skill Category'},
+                {id: 5, label: 'Skill Category'},
+                {id: 6, label: 'Skill'},
+                {id: 7, label: 'Skill'},
+                {id: 8, label: 'Skill'},
+                {id: 9, label: 'Skill'},
+                {id: 10, label: 'Skill'},
+                {id: 11, label: 'Skill'},
+                {id: 12, label: 'Skill'},
+                {id: 13, label: 'Skill'},
+                {id: 14, label: 'Skill'},
+                {id: 15, label: 'Skill'},
+                {id: 16, label: 'Skill'},
+                {id: 17, label: 'Skill'}
             ]);
 
             //  Create an array with edges
             var edges = new vis.DataSet([
-                {from: 1, to: 3},
                 {from: 1, to: 2},
-                {from: 2, to: 4},
-                {from: 2, to: 5}
+                {from: 1, to: 3},
+                {from: 1, to: 4},
+                {from: 1, to: 5},
+                {from: 2, to: 6},
+                {from: 2, to: 7},
+                {from: 2, to: 8},
+                {from: 3, to: 9},
+                {from: 3, to: 10},
+                {from: 3, to: 11},
+                {from: 4, to: 12},
+                {from: 4, to: 13},
+                {from: 4, to: 14},
+                {from: 5, to: 15},
+                {from: 5, to: 16},
+                {from: 5, to: 17}
             ]);
 
             //  Get the DOM element to contain the network
@@ -47,7 +72,21 @@
                 nodes: nodes,
                 edges: edges
             };
-            var options = {};
+            var options = {
+                clickToUse: false,
+                configure: {
+                    enabled: true,
+                    filter: true,
+                    container: document.getElementById('config')
+                },
+                nodes: {},
+                edges: {},
+                groups: {},
+                layout: {},
+                interaction: {},
+                manipulation: {},
+                physics: {}
+            };
 
             //  Initialize the network
             var network = new vis.Network(container, data, options);
