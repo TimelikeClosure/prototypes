@@ -1,0 +1,106 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '[-g]',
+1 verbose cli   'shelljs' ]
+2 info using npm@3.9.5
+3 info using node@v6.2.2
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData [-g]
+8 silly fetchPackageMetaData shelljs
+9 silly fetchOtherPackageData [-g]
+10 silly cache add args [ '[-g]', null ]
+11 verbose cache add spec [-g]
+12 silly fetchNamedPackageData shelljs
+13 silly mapToRegistry name shelljs
+14 silly mapToRegistry using default registry
+15 silly mapToRegistry registry https://registry.npmjs.org/
+16 silly mapToRegistry data Result {
+16 silly mapToRegistry   raw: 'shelljs',
+16 silly mapToRegistry   scope: null,
+16 silly mapToRegistry   name: 'shelljs',
+16 silly mapToRegistry   rawSpec: '',
+16 silly mapToRegistry   spec: 'latest',
+16 silly mapToRegistry   type: 'tag' }
+17 silly mapToRegistry uri https://registry.npmjs.org/shelljs
+18 silly cache add parsed spec Result {
+18 silly cache add   raw: '[-g]',
+18 silly cache add   scope: null,
+18 silly cache add   name: null,
+18 silly cache add   rawSpec: '[-g]',
+18 silly cache add   spec: 'C:\\MAMP\\htdocs\\LFZ\\prototypes\\node_install\\[-g]',
+18 silly cache add   type: 'local' }
+19 verbose request uri https://registry.npmjs.org/shelljs
+20 verbose request no auth needed
+21 info attempt registry request try #1 at 2:03:50 PM
+22 verbose request id b977d2d41cbedfac
+23 http request GET https://registry.npmjs.org/shelljs
+24 error addLocal Could not install C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]
+25 silly fetchPackageMetaData Error: ENOENT: no such file or directory, open 'C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]'
+25 silly fetchPackageMetaData     at Error (native)
+25 silly fetchPackageMetaData  error for [-g] { Error: ENOENT: no such file or directory, open 'C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]'
+25 silly fetchPackageMetaData     at Error (native)
+25 silly fetchPackageMetaData   errno: -4058,
+25 silly fetchPackageMetaData   code: 'ENOENT',
+25 silly fetchPackageMetaData   syscall: 'open',
+25 silly fetchPackageMetaData   path: 'C:\\MAMP\\htdocs\\LFZ\\prototypes\\node_install\\[-g]' }
+26 http 200 https://registry.npmjs.org/shelljs
+27 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 verbose headers   etag: '"99ZSL9ET7G7DZSO9JUAN06DVR"',
+27 verbose headers   'content-type': 'application/json',
+27 verbose headers   'content-encoding': 'gzip',
+27 verbose headers   'cache-control': 'max-age=300',
+27 verbose headers   'content-length': '14411',
+27 verbose headers   'accept-ranges': 'bytes',
+27 verbose headers   date: 'Tue, 28 Jun 2016 21:03:51 GMT',
+27 verbose headers   via: '1.1 varnish',
+27 verbose headers   age: '130',
+27 verbose headers   connection: 'keep-alive',
+27 verbose headers   'x-served-by': 'cache-sjc3122-SJC',
+27 verbose headers   'x-cache': 'HIT',
+27 verbose headers   'x-cache-hits': '17',
+27 verbose headers   'x-timer': 'S1467147831.972917,VS0,VE0',
+27 verbose headers   vary: 'Accept-Encoding' }
+28 silly get cb [ 200,
+28 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+28 silly get     etag: '"99ZSL9ET7G7DZSO9JUAN06DVR"',
+28 silly get     'content-type': 'application/json',
+28 silly get     'content-encoding': 'gzip',
+28 silly get     'cache-control': 'max-age=300',
+28 silly get     'content-length': '14411',
+28 silly get     'accept-ranges': 'bytes',
+28 silly get     date: 'Tue, 28 Jun 2016 21:03:51 GMT',
+28 silly get     via: '1.1 varnish',
+28 silly get     age: '130',
+28 silly get     connection: 'keep-alive',
+28 silly get     'x-served-by': 'cache-sjc3122-SJC',
+28 silly get     'x-cache': 'HIT',
+28 silly get     'x-cache-hits': '17',
+28 silly get     'x-timer': 'S1467147831.972917,VS0,VE0',
+28 silly get     vary: 'Accept-Encoding' } ]
+29 verbose get saving shelljs to C:\Users\Tim\AppData\Roaming\npm-cache\registry.npmjs.org\shelljs\.cache.json
+30 verbose correctMkdir C:\Users\Tim\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+31 silly rollbackFailedOptional Starting
+32 silly rollbackFailedOptional Finishing
+33 silly runTopLevelLifecycles Starting
+34 silly runTopLevelLifecycles Finishing
+35 silly install printInstalled
+36 verbose stack Error: ENOENT: no such file or directory, open 'C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]'
+36 verbose stack     at Error (native)
+37 verbose cwd C:\MAMP\htdocs\LFZ\prototypes\node_install
+38 error Windows_NT 10.0.10586
+39 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "[-g]" "shelljs"
+40 error node v6.2.2
+41 error npm  v3.9.5
+42 error path C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]
+43 error code ENOENT
+44 error errno -4058
+45 error syscall open
+46 error enoent ENOENT: no such file or directory, open 'C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]'
+47 error enoent ENOENT: no such file or directory, open 'C:\MAMP\htdocs\LFZ\prototypes\node_install\[-g]'
+47 error enoent This is most likely not a problem with npm itself
+47 error enoent and is related to npm not being able to find a file.
+48 verbose exit [ -4058, true ]
