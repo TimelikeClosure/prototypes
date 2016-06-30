@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>-->
+        <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
+        <!--<link href="style.css" type="text/css" rel="stylesheet"/>-->
+        <!--<script src="https://code.jquery.com/jquery.min.js"></script>-->
+        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>-->
+        <!--<script src="script.js"></script>-->
+
+        <script>
+
+            function webSockerInit() {
+                if ("WebSocket" in window) {    //  check if websocket is available
+                    ws = new WebSocket("ws://localhost:8001/echo");
+
+                    ws.onopen = function() {
+                        //  Web Socket is connected, send data using send()
+
+                        console.log("connected");
+                    };
+
+                    ws.onclose = function(){
+                        //  Websocket is closed.
+
+                        alert("Connection is closed...");
+                    };
+
+                    ws.onmessage = function(evt) {
+                        console.log("message is received: ", evt);
+                    };
+
+                    function send_message(message){
+                        ws.send(message);
+                    }
+                }
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+
+    </body>
+
+</html>
