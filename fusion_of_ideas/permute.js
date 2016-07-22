@@ -1,38 +1,39 @@
 /**
- * permuteStrings - for a given array of strings, returns an array containing all unique permutations of concatenating those strings
+ * permuteStrings - for a given array of strings, returns an array containing all unique permutations of those strings, concatenated
  * @param {string[]} stringArray - an array of strings to permute
  * @return {string[]} - all unique permutations of the given strings
  */
 function permuteStrings(stringArray){
-    //  check for base case of only one string remaining
+
+    //  check for base case of only zero-to-one string remaining
     if (stringArray.length <= 1){
         return stringArray;
     }
-    //  initialize output array
+
+    //  initialize output array and used string cache
     var stringPermutations = [];
-    //  initialize used string cache
     var cache = {};
 
     //  loop through stringArray, finding each unique starting string
     for (var i = 0; i < stringArray.length; i++){
-        //  save a copy of starting string
+
         var startingString = stringArray[i];
-        //  check starting string to see if it has already been used
-        if (!cache.hasOwnProperty(startingString)){
-            //  add starting string to cache
+        if (!cache.hasOwnProperty(startingString)){ //  verify starting string has not already been used
+            //  cache starting string
             cache[startingString] = null;
-            //  clone stringArray and splice out startingString
+
+            //  obtain unique permutations of remaining strings
             var stringSubArray = stringArray.slice();
             stringSubArray.splice(i, 1);
-            //  get all permutations of stringSubArray
             var stringSubPermutations = permuteStrings(stringSubArray);
-            //  loop through stringSubPermutations, pushing each permutation to stringPermutations
+
+            //  push all permutations, including starting string, to output array
             for (var j = 0; j < stringSubPermutations.length; j++) {
                 stringPermutations.push(startingString + stringSubPermutations[j]);
             }
         }
     }
 
-    //  return list of permutations
+    //  return list of unique permutations
     return stringPermutations;
 }
