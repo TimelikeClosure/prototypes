@@ -1,4 +1,16 @@
 <?php
+    /**
+     * Notes:
+     *
+     * 1.   Input received as POST variables
+     * 1.   Output returned as JSON object
+     * 1.   id fields assumed to be unsigned integers (anywhere from tinyint to bigint) and cannot be null
+     * 1.   name fields assumed to be strings and cannot be empty
+     * 1.   Not sure if security is need for this. Added POST input validation, but not mysqli prepared statements
+     * 1.   Not sure if primary keys can be edited by client. Assumed they cannot.
+     * 1.   Not sure if foreign keys can be edited by client. Assumed they can.
+     */
+
 
     /**
      * errorResponse - returns the given error message to the client and halts execution
@@ -16,7 +28,7 @@
     //  validate inputs
     $filteredPOST = [];
     $filteredPOST['request_type'] = filter_var($_POST['request_type'], FILTER_SANITIZE_STRING);
-    if (!$request_type){
+    if (empty($filteredPOST['request_type'])){
         errorResponse("Invalid request type");
     }
 
@@ -33,7 +45,7 @@
         case 'add_client':
             //  filter input variables
             $filteredPOST['client_name'] = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
-            if (!$filteredPOST['client_name']){
+            if (empty($filteredPOST['client_name'])){
                 errorResponse('Invalid client name');
             }
             //  create query
@@ -45,7 +57,7 @@
         case 'edit_client':
             //  filter input variables
             $filteredPOST['client_id'] = filter_var($_POST['client_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['client_id']){
+            if (empty($filteredPOST['client_id']) && $filteredPOST['client_id'] !== 0){
                 errorResponse('Invalid client id');
             }
             //  create query
@@ -56,7 +68,7 @@
         case 'delete_client':
             //  filter input variables
             $filteredPOST['client_id'] = filter_var($_POST['client_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['client_id']){
+            if (empty($filteredPOST['client_id']) && $filteredPOST['client_id'] !== 0){
                 errorResponse('Invalid client id');
             }
             //  create query
@@ -71,11 +83,11 @@
         case 'add_section':
             //  filter input variables
             $filteredPOST['client_id'] = filter_var($_POST['client_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['client_id']){
+            if (empty($filteredPOST['client_id']) && $filteredPOST['client_id'] !== 0){
                 errorResponse('Invalid client id');
             }
             $filteredPOST['section_name'] = filter_var($_POST['section_name'], FILTER_SANITIZE_STRING);
-            if (!$filteredPOST['section_name']){
+            if (empty($filteredPOST['section_name'])){
                 errorResponse('Invalid section name');
             }
             //  create query
@@ -87,18 +99,33 @@
                       );";  //  SELECT statement returns null if given client id doesn't exist, causing query to fail
             $id_key_label = 'section_id';
             break;
-        //  edits section name (and client id?)
+        //  edits section name and client id - QA
         case 'edit_section':
             //  filter input variables
+            $filteredPOST['section_name'] = filter_var($_POST['section_name'], FILTER_SANITIZE_STRING);
+            $filteredPOST['client_id'] = filter_var($_POST['client_id'], FILTER_VALIDATE_INT);
+            if (empty($filteredPOST['section_name']) && empty($filteredPOST['client_id']) && $filteredPOST['client_id'] !== 0){
+                errorResponse('No valid section name or client id provided to update section');
+            }
             //  create query
             $query_type = "UPDATE";
-            $query = "UPDATE `sections` SET `client_id`='{$_POST['client_id']}',`name`='{$_POST['section_name']}';";
+            $query = "UPDATE `sections` SET ";
+            if (!empty($filteredPOST['section_name'])){
+                $query .= "`name`='{$filteredPOST['section_name']}'";
+            }
+            if (!empty($filteredPOST['client_id']) || $filteredPOST['client_id'] === 0){
+                if (!empty($filteredPOST['section_name'])){
+                    $query .= ",";
+                }
+                $query .= "`client_id`=(SELECT `id` FROM `clients` WHERE `id`={$filteredPOST['client_id']})";
+            }
+            $query .= ";";
             break;
         //  deletes a section and all the section's links - QA
         case 'delete_section':
             //  filter input variables
             $filteredPOST['section_id'] = filter_var($_POST['section_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['section_id']){
+            if (empty($filteredPOST['section_id']) && $filteredPOST['section_id'] !== 0){
                 errorResponse('Invalid section id');
             }
             //  create query
@@ -112,11 +139,11 @@
         case 'add_link':
             //  filter input variables
             $filteredPOST['section_id'] = filter_var($_POST['section_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['section_id']){
+            if (empty($filteredPOST['section_id']) && $filteredPOST['section_id'] !== 0){
                 errorResponse('Invalid section id');
             }
             $filteredPOST['link_name'] = filter_var($_POST['link_name'], FILTER_SANITIZE_STRING);
-            if (!$filteredPOST['link_name']){
+            if (empty($filteredPOST['link_name'])){
                 errorResponse('Invalid link name');
             }
             //  create query
@@ -129,18 +156,33 @@
                       );";  //  SELECT statement returns null if given section id doesn't exist, causing query to fail
             $id_key_label = 'link_id';
             break;
-        //  edits link name (and section_id?)
+        //  edits link name and section_id - QA
         case 'edit_link':
             //  filter input variables
+            $filteredPOST['link_name'] = filter_var($_POST['link_name'], FILTER_SANITIZE_STRING);
+            $filteredPOST['section_id'] = filter_var($_POST['section_id'], FILTER_VALIDATE_INT);
+            if (empty($filteredPOST['link_name']) && empty($filteredPOST['section_id']) && $filteredPOST['section_id'] !== 0){
+                errorResponse('No valid link name or section id provided to update link');
+            }
             //  create query
             $query_type = "UPDATE";
-            $query = "UPDATE `links` SET `section_id`={$_POST['section_id']},`name`='{$_POST['link_name']}';";
+            $query = "UPDATE `links` SET ";
+            if (!empty($filteredPOST['link_name'])){
+                $query .= "`name`='{$filteredPOST['link_name']}'";
+            }
+            if (!empty($filteredPOST['section_id']) || $filteredPOST['section_id'] === 0){
+                if (!empty($filteredPOST['link_name'])){
+                    $query .= ",";
+                }
+                $query .= "`section_id`=(SELECT `id` FROM `sections` WHERE `id`={$filteredPOST['section_id']})";
+            }
+            $query .= ";";
             break;
         //  deletes a link - QA
         case 'delete_link':
             //  filter input variables
             $filteredPOST['link_id'] = filter_var($_POST['link_id'], FILTER_VALIDATE_INT);
-            if (!$filteredPOST['link_id']){
+            if (empty($filteredPOST['link_id']) && $filteredPOST['link_id'] !== 0){
                 errorResponse('Invalid link id');
             }
             //  create query
@@ -154,7 +196,7 @@
 
     //  send query to database
     $result = $connection->query($query);
-    if(!$result){   //  if the query fails, respond to client with error
+    if(empty($result)){   //  if the query fails, respond to client with error
         errorResponse("(".$connection->errno.") ".$connection->error);
     }
 
