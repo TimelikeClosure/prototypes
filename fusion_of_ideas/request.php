@@ -103,8 +103,7 @@
                       );";  //  SELECT statement returns null if given client id doesn't exist, causing query to fail
             $id_key_label = 'section_id';
             break;
-        //  edits section name and client id - QA
-        //  client_id is set to 0 when it doesn't exist in clients table
+        //  edits section name and client id
         case 'edit_section':
             //  filter input variables
             $filteredPOST['section_id'] = filter_var($_POST['section_id'], FILTER_VALIDATE_INT);
@@ -116,19 +115,29 @@
             if (empty($filteredPOST['section_name']) && empty($filteredPOST['client_id'])){
                 errorResponse('No valid section name or client id provided to update section');
             }
+            //  if client id is provided, query clients table to check validity
+            if(!empty($filteredPOST['client_id'])){
+                $result = $connection->query("SELECT id FROM clients WHERE id={$filteredPOST['client_id']}");
+                if (!($result->num_rows)){
+                    errorResponse("client id does not exist");
+                }
+            }
             //  create query
             $query_type = "UPDATE";
-            $query = "UPDATE `sections` SET ";
+            $query = "UPDATE sections SET ";
             if (!empty($filteredPOST['section_name'])){
-                $query .= "`name`='{$filteredPOST['section_name']}'";
+                $query .= "name='{$filteredPOST['section_name']}'";
             }
             if (!empty($filteredPOST['client_id'])){
                 if (!empty($filteredPOST['section_name'])){
                     $query .= ",";
                 }
-                $query .= "`client_id`=(SELECT `id` FROM `clients` WHERE `id`={$filteredPOST['client_id']})";
+                $query .= "client_id={$filteredPOST['client_id']}";
             }
-            $query .= " WHERE `id`={$filteredPOST['section_id']};";
+            $query .= " WHERE sections.id={$filteredPOST['section_id']}";
+            $query .= ";";
+
+            //$query = "UPDATE "
             break;
         //  deletes a section and all the section's links
         case 'delete_section':
@@ -165,8 +174,7 @@
                       );";  //  SELECT statement returns null if given section id doesn't exist, causing query to fail
             $id_key_label = 'link_id';
             break;
-        //  edits link name and section_id - QA
-        //  client_id is set to 0 when it doesn't exist in clients table
+        //  edits link name and section_id
         case 'edit_link':
             //  filter input variables
             $filteredPOST['link_id'] = filter_var($_POST['link_id'], FILTER_VALIDATE_INT);
@@ -178,6 +186,13 @@
             if (empty($filteredPOST['link_name']) && empty($filteredPOST['section_id'])){
                 errorResponse('No valid link name or section id provided to update link');
             }
+            //  if section id is provided, query clients table to check validity
+            if(!empty($filteredPOST['section_id'])){
+                $result = $connection->query("SELECT id FROM sections WHERE id={$filteredPOST['section_id']}");
+                if (!($result->num_rows)){
+                    errorResponse("section id does not exist");
+                }
+            }
             //  create query
             $query_type = "UPDATE";
             $query = "UPDATE `links` SET ";
@@ -188,7 +203,7 @@
                 if (!empty($filteredPOST['link_name'])){
                     $query .= ",";
                 }
-                $query .= "`section_id`=(SELECT `id` FROM `sections` WHERE `id`={$filteredPOST['section_id']})";
+                $query .= "`section_id`={$filteredPOST['section_id']}";
             }
             $query .= " WHERE `id`={$filteredPOST['link_id']};";
             break;
