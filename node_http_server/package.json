@@ -1,0 +1,9 @@
+{
+  "name": "node_http_server",
+  "version": "v1.0.0",
+  "description": "Build your first HTTP server in Node.js",
+  "repository": "https://github.com/TimelikeClosure/prototypes.git",
+  "dependencies": {
+    "httpdispatcher": "^1.0.0"
+  }
+}
