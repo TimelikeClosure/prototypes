@@ -2,6 +2,7 @@ console.log('hello');
 
 var http = require('http'); //  includes http module
 var dispatcher = require('httpdispatcher'); //  includes httpdispatcher module
+var fs = require('fs');
 
 const PORT = 8881;  //  define client access port number
 
@@ -27,6 +28,20 @@ dispatcher.beforeFilter(/\//, function(req, res, chain){
 dispatcher.afterFilter(/\//, function(req, res, chain){
     console.log("After filter");
     chain.next(req, res, chain);
+});
+
+dispatcher.onGet('/', function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    // var html = fs.readFileSync(__dirname + '/resources/index.html', 'utf8');
+    // res.end(html);
+    fs.createReadStream(__dirname + '/resources/index.html', 'utf8').pipe(res);
+});
+
+dispatcher.onGet('/resources/Screenshot_1.png', function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'image/png' });
+    // var img = fs.readFile(__dirname + '/resources/Screenshot_1.png');
+    // res.end(img, 'binary');
+    fs.createReadStream(__dirname + '/resources/Screenshot_1.png').pipe(res);
 });
 
 dispatcher.onGet("/page1", function(req, res){  //  Defines the route for a GET request with a relative address of '/page1'
